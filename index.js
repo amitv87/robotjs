@@ -9,7 +9,8 @@ if(/^win/.test(process.platform)){
 }
 else if(/^darwin/.test(process.platform)){
   platform = 'darwin';
-  keyMap = JSON.parse(sjc(fs.readFileSync('./keymap_darwin.json', 'utf8')));
+  keyMap = JSON.parse(sjc(fs.readFileSync(__dirname + '/keymap_darwin.json', 'utf8')));
+  console.log(keyMap);
   CURSOR_JOB_INTERVAL = 200;
 }
 else if(/^linux/.test(process.platform)){
@@ -24,13 +25,17 @@ else{
 var robot = require('./build/Release/robotjs.node');
 function sendKey(code, down){
 	var keyCode = keyMap[code];
-	if(!keyCode)
+	if(isNaN(keyCode))
 		keyCode = code;
+	console.log(keyCode, down);
 	robot.sendKey(keyCode, down);
 }
 
-function click(button, double){
-	robot.mouseClick(button, double);
+function sendClick(button, down, double){
+	if(double)
+		robot.mouseClick(button, double);
+	else
+		robot.sendClick(button, down);
 }
 
 function moveMouse(x, y){
@@ -59,11 +64,12 @@ function getScreenSize(){
 
 module.exports = {
 	sendKey: sendKey,
-	click: click,
+	sendClick: sendClick,
 	moveMouse: moveMouse,
 	dragMouse: dragMouse,
 	scroll: scroll,
 	getMousePos: getMousePos,
 	getCursor: getCursor,
-	getScreenSize: getScreenSize
+	getScreenSize: getScreenSize,
+	internat: robot
 }

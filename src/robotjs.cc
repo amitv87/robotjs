@@ -81,7 +81,7 @@ NAN_METHOD(dragMouse)
 	MMPoint point;
 	point = MMPointMake(x, y);
 	dragMouse(point, button);
-	microsleep(mouseDelay);
+	// microsleep(mouseDelay);
 
 	info.GetReturnValue().Set(Nan::New(1));
 }
@@ -98,7 +98,7 @@ NAN_METHOD(moveMouse)
 	MMPoint point;
 	point = MMPointMake(x, y);
 	moveMouse(point);
-	microsleep(mouseDelay);
+	// microsleep(mouseDelay);
 
 	info.GetReturnValue().Set(Nan::New(1));
 }
@@ -170,7 +170,7 @@ NAN_METHOD(mouseClick)
 		doubleClick(button);
 	}
 
-	microsleep(mouseDelay);
+	// microsleep(mouseDelay);
 
 	info.GetReturnValue().Set(Nan::New(1));
 }
@@ -276,6 +276,17 @@ NAN_METHOD(scrollMouse)
 	{
 		return Nan::ThrowError("Invalid number of arguments.");
 	}
+}
+
+NAN_METHOD(sendClick){
+	MMMouseButton button = LEFT_BUTTON;
+
+	Nan::Utf8String bstr(info[1]);
+	const char * const b = *bstr;
+
+	CheckMouseButton(b, &button);
+	bool down = To<bool>(info[1]).FromJust();
+	toggleMouse(down, button);
 }
 
 NAN_METHOD(scroll){
@@ -670,7 +681,7 @@ NAN_METHOD(getCursor)
 		Nan::Set(obj, Nan::New("width").ToLocalChecked(), Nan::New<Number>(mm.width));
 		Nan::Set(obj, Nan::New("height").ToLocalChecked(), Nan::New<Number>(mm.height));
 		Nan::Set(obj, Nan::New("size").ToLocalChecked(), Nan::New<Number>(mm.size));
-		Nan::Set(obj, Nan::New("bytes").ToLocalChecked(), Nan::NewBuffer(mm.bytes, mm.size).ToLocalChecked());
+		Nan::Set(obj, Nan::New("bytes").ToLocalChecked(), Nan::New<String>(mm.bytes, mm.size).ToLocalChecked());
 		info.GetReturnValue().Set(obj);
 	}
 }
@@ -733,6 +744,9 @@ NAN_MODULE_INIT(InitAll)
 
 	Nan::Set(target, Nan::New("scroll").ToLocalChecked(),
 		Nan::GetFunction(Nan::New<FunctionTemplate>(scroll)).ToLocalChecked());
+
+	Nan::Set(target, Nan::New("sendClick").ToLocalChecked(),
+		Nan::GetFunction(Nan::New<FunctionTemplate>(sendClick)).ToLocalChecked());
 }
 
 NODE_MODULE(robotjs, InitAll)
