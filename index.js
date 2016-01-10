@@ -53,6 +53,10 @@ function getMousePos(){
 	console.log(robot.getMousePos());
 }
 
+function getScreenSize(){
+	return robot.getScreenSize();
+}
+
 module.exports = {
 	sendKey: sendKey,
 	click: click,
@@ -61,4 +65,5 @@ module.exports = {
 	scroll: scroll,
 	getMousePos: getMousePos,
 	getCursor: getCursor,
+	getScreenSize: getScreenSize
 }
