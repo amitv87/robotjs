@@ -47,7 +47,20 @@
       }],
 
       ["OS=='win'", {
-        'defines': ['IS_WINDOWS']
+        'defines': ['IS_WINDOWS'],
+        'msbuild_settings': {
+          'ClCompile': {
+            'ExceptionHandling': 'Async',
+            #'RuntimeTypeInfo': 1,
+            'RuntimeLibrary':'MultiThreadedDLL',
+            'CompileAsManaged':'true',
+              'AdditionalOptions': [
+                '/clr',
+                '/TP',
+                '/c4005'
+              ]
+          }
+        }
       }]
     ],
     

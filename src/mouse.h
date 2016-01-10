@@ -92,6 +92,8 @@ void doubleClick(MMMouseButton button);
  * TODO: Add a smoothly scroll mouse next. */
 void scrollMouse(int scrollMagnitude, MMMouseWheelDirection scrollDirection);
 
+MMInfo getCursorInfo();
+
 #endif /* MOUSE_H */
 
 #ifdef __cplusplus

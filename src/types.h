@@ -53,6 +53,17 @@ H_INLINE MMRect MMRectMake(size_t x, size_t y, size_t width, size_t height)
 	return rect;
 }
 
+struct _MMInfo {
+	int left;//left coordinate of the mouse
+	int top;//top coordinate of the mouse
+	int height;//height of the mouse icon
+	int width;//width of the mouse icon
+	int size;
+	char* bytes;
+	// bool Hidden;
+};
+typedef struct _MMInfo MMInfo;
+
 #define MMPointZero MMPointMake(0, 0)
 
 #if defined(IS_MACOSX)
