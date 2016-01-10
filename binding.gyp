@@ -67,7 +67,7 @@
           }
         },
         'sources': [
-          #'src/cursor_win.cc'
+          'src/cursor_win.cc'
         ]
       }]
     ],

@@ -57,15 +57,14 @@ MMInfo getCursorInfo(){
 
 	ICONINFO ii;
 	GetIconInfo(hCursor, &ii);
-	icon = ::Icon::FromHandle((IntPtr)hCursor);
+	icon = Icon::FromHandle((IntPtr)hCursor);
 	auto colorbmp = RAIIHBITMAP(ii.hbmColor);
 	auto maskbmp = RAIIHBITMAP(ii.hbmMask);
 
 	bmp = icon->ToBitmap();
 	icon->~Icon();
 	bmp->Save(ms, Imaging::ImageFormat::Png);
-	array<unsigned char>^ bytes = ms->GetBuffer();
-	pin_ptr<unsigned char> p = &bytes[0];
+	String^ base64 = Convert::ToBase64String(ms->GetBuffer(), 0, ms->Length);
 
 	height = bmp->Height;
 	width = bmp->Width;
@@ -73,8 +72,8 @@ MMInfo getCursorInfo(){
 	m.top = ii.yHotspot;
 	m.width = width;
 	m.height = height;
-	m.size = ms->Length;
-	m.bytes = reinterpret_cast<char*>(p);
+	m.size = base64->Length;
+	m.bytes = (char*)(void*)Runtime::InteropServices::Marshal::StringToHGlobalAnsi(base64);
 
 	ms->SetLength(0);
 	delete bmp;
