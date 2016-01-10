@@ -1,4 +1,6 @@
 var robot = require('.');
 setInterval(function(){
-	console.log(robot.getCursor());
+	var cur = robot.getCursor();
+	if(cur)
+		console.log(cur);
 },100)

@@ -26,7 +26,8 @@
             '-framework Carbon',
             '-framework CoreFoundation',
             '-framework ApplicationServices',
-            '-framework OpenGL'
+            '-framework OpenGL',
+            '$(SDKROOT)/System/Library/Frameworks/AppKit.framework'
           ]
         }
       }],
@@ -69,6 +70,7 @@
       'src/robotjs.cc',
       'src/deadbeef_rand.c',
       'src/mouse.c',
+      'src/cursor.mm',
       'src/keypress.c',
       'src/keycode.c',
       'src/screen.c',

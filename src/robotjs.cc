@@ -648,14 +648,16 @@ NAN_METHOD(getScreenSize)
 NAN_METHOD(getCursor)
 {
 	MMInfo mm = getCursorInfo();
-	Local<Object> obj = Nan::New<Object>();
-	Nan::Set(obj, Nan::New("left").ToLocalChecked(), Nan::New<Number>(mm.left));
-	Nan::Set(obj, Nan::New("top").ToLocalChecked(), Nan::New<Number>(mm.top));
-	Nan::Set(obj, Nan::New("width").ToLocalChecked(), Nan::New<Number>(mm.width));
-	Nan::Set(obj, Nan::New("height").ToLocalChecked(), Nan::New<Number>(mm.height));
-	Nan::Set(obj, Nan::New("size").ToLocalChecked(), Nan::New<Number>(mm.size));
-	Nan::Set(obj, Nan::New("bytes").ToLocalChecked(), Nan::NewBuffer(mm.bytes, mm.size).ToLocalChecked());
-	info.GetReturnValue().Set(obj);
+	if(mm.size > 0){
+		Local<Object> obj = Nan::New<Object>();
+		Nan::Set(obj, Nan::New("left").ToLocalChecked(), Nan::New<Number>(mm.left));
+		Nan::Set(obj, Nan::New("top").ToLocalChecked(), Nan::New<Number>(mm.top));
+		Nan::Set(obj, Nan::New("width").ToLocalChecked(), Nan::New<Number>(mm.width));
+		Nan::Set(obj, Nan::New("height").ToLocalChecked(), Nan::New<Number>(mm.height));
+		Nan::Set(obj, Nan::New("size").ToLocalChecked(), Nan::New<Number>(mm.size));
+		Nan::Set(obj, Nan::New("bytes").ToLocalChecked(), Nan::NewBuffer(mm.bytes, mm.size).ToLocalChecked());
+		info.GetReturnValue().Set(obj);
+	}
 }
 
 #pragma unmanaged
