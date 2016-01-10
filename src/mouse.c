@@ -310,3 +310,42 @@ bool smoothlyMoveMouse(MMPoint endPoint)
 
 	return true;
 }
+
+void scrollVH(int vertical, int horizontal){
+	/* Set up the OS specific solution */
+	#if defined(__APPLE__)
+		CGEventRef event = CGEventCreateScrollWheelEvent(NULL, kCGScrollEventUnitLine, 1, vertical, horizontal);
+		CGEventPost(kCGHIDEventTap, event);
+		
+	#elif defined(USE_X11)
+
+		// int x;
+		// int dir = 4; /* Button 4 is up, 5 is down. */
+		// Display *display = XGetMainDisplay();
+		
+		// if (scrollDirection == DIRECTION_DOWN)
+		// {
+		// 	dir = 5;
+		// }
+	
+		// for (x = 0; x < cleanScrollMagnitude; x++)
+		// {
+		// 	XTestFakeButtonEvent(display, dir, 1, CurrentTime);
+		// 	XTestFakeButtonEvent(display, dir, 0, CurrentTime);
+		// }
+		
+		// XFlush(display);
+		
+	#elif defined(IS_WINDOWS)
+		//FIXME: Need to figure out why this code doesn't work on Windows XP.
+		/*INPUT mouseScrollInput;
+		mouseScrollInput.type = INPUT_MOUSE;
+		mouseScrollInput.mi.dx = 0;
+		mouseScrollInput.mi.dy = 0;
+		mouseScrollInput.mi.dwFlags = MOUSEEVENTF_WHEEL;
+		mouseScrollInput.mi.time = 0;
+		mouseScrollInput.mi.dwExtraInfo = 0;
+		mouseScrollInput.mi.mouseData = WHEEL_DELTA * scrollDirection * cleanScrollMagnitude;
+		SendInput(1, &mouseScrollInput, sizeof(mouseScrollInput));*/
+	#endif
+}

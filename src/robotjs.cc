@@ -12,6 +12,7 @@
 #include "microsleep.h"
 
 using namespace v8;
+using Nan::To;
 
 //Global delays.
 int mouseDelay = 10;
@@ -275,6 +276,13 @@ NAN_METHOD(scrollMouse)
 	{
 		return Nan::ThrowError("Invalid number of arguments.");
 	}
+}
+
+NAN_METHOD(scroll){
+	int vertical = info[0]->Int32Value();
+	int horizontal = info[1]->Int32Value();
+	scrollVH(vertical, horizontal);
+	info.GetReturnValue().Set(Nan::New(1));
 }
 /*
  _  __          _                         _ 
@@ -599,6 +607,12 @@ NAN_METHOD(setKeyboardDelay)
 	info.GetReturnValue().Set(Nan::New(1));
 }
 
+NAN_METHOD(sendKey){
+	int keyCode = To<int>(info[0]).FromJust();
+	bool down = To<bool>(info[1]).FromJust();
+	toggleKeyCode(keyCode, down, MOD_NONE);
+}
+
 /*
   ____                           
  / ___|  ___ _ __ ___  ___ _ __  
@@ -660,7 +674,9 @@ NAN_METHOD(getCursor)
 	}
 }
 
+#if defined(IS_WINDOWS)
 #pragma unmanaged
+#endif
 NAN_MODULE_INIT(InitAll)
 {
 	Nan::Set(target, Nan::New("dragMouse").ToLocalChecked(),
@@ -710,7 +726,15 @@ NAN_MODULE_INIT(InitAll)
 
 	Nan::Set(target, Nan::New("getCursor").ToLocalChecked(),
 		Nan::GetFunction(Nan::New<FunctionTemplate>(getCursor)).ToLocalChecked());
+
+	Nan::Set(target, Nan::New("sendKey").ToLocalChecked(),
+		Nan::GetFunction(Nan::New<FunctionTemplate>(sendKey)).ToLocalChecked());
+
+	Nan::Set(target, Nan::New("scroll").ToLocalChecked(),
+		Nan::GetFunction(Nan::New<FunctionTemplate>(scroll)).ToLocalChecked());
 }
 
 NODE_MODULE(robotjs, InitAll)
+#if defined(IS_WINDOWS)
 #pragma managed
+#endif
