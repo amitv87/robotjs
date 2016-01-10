@@ -29,7 +29,10 @@
             '-framework OpenGL',
             '$(SDKROOT)/System/Library/Frameworks/AppKit.framework'
           ]
-        }
+        },
+        'sources': [
+          'src/cursor_darwin.mm'
+        ]
       }],
       
       ['OS == "linux"', {
@@ -62,7 +65,10 @@
                 '/c4005'
               ]
           }
-        }
+        },
+        'sources': [
+          #'src/cursor_win.cc'
+        ]
       }]
     ],
     
@@ -70,7 +76,6 @@
       'src/robotjs.cc',
       'src/deadbeef_rand.c',
       'src/mouse.c',
-      'src/cursor.mm',
       'src/keypress.c',
       'src/keycode.c',
       'src/screen.c',
