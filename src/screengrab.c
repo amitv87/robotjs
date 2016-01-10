@@ -145,7 +145,7 @@ MMBitmapRef copyMMBitmapFromDisplayInRect(MMRect rect)
 
 	/* Copy the data to our pixel buffer. */
 	if (bitmap != NULL) {
-		bitmap->imageBuffer = malloc(bitmap->bytewidth * bitmap->height);
+		bitmap->imageBuffer = (uint8_t *)malloc(bitmap->bytewidth * bitmap->height);
 		memcpy(bitmap->imageBuffer, data, bitmap->bytewidth * bitmap->height);
 	}
 

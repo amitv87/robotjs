@@ -57,6 +57,7 @@
               'AdditionalOptions': [
                 '/clr',
                 '/TP',
+                '/TC'
                 '/c4005'
               ]
           }
