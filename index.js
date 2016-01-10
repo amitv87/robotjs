@@ -45,8 +45,8 @@ function scroll(vertical, horizontal){
 	robot.scroll(vertical, horizontal);
 }
 
-function getCursor(){
-	return robot.getCursor();
+function getCursor(force){
+	return robot.getCursor(force);
 }
 
 function getMousePos(){

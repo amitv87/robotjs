@@ -9,7 +9,7 @@ NSApplication *app = [NSApplication sharedApplication];
 // NSEvent *event = [app nextEventMatchingMask: NSAnyEventMask
 	// untilDate: nil inMode: NSDefaultRunLoopMode dequeue: 1];
 CFDataRef prevData;
-MMInfo getCursorInfo(){
+MMInfo getCursorInfo(bool force){
 	NSCursor *cursor = [NSCursor currentSystemCursor];
 	NSPoint hotSpot = [cursor hotSpot];
 	NSImage *nsImage = [cursor image];
@@ -17,7 +17,7 @@ MMInfo getCursorInfo(){
 
 	CGImage *cgImage = [nsImage CGImageForProposedRect: nil context: nil hints: nil];
 	CFDataRef curData = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
-	if(prevData != nil && CFEqual(curData, prevData)) {
+	if(!force && (prevData != nil && CFEqual(curData, prevData))){
 		m.size = 0;
 		[curData release];
 		[cgImage release];
@@ -40,7 +40,6 @@ MMInfo getCursorInfo(){
 	m.height = size.height;
 	m.size = [base64png length];
 	m.bytes = (char *)[base64png UTF8String];
-
 
 	[imageRep release];
 	[cgImage release];

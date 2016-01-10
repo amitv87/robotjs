@@ -94,7 +94,7 @@ void scrollMouse(int scrollMagnitude, MMMouseWheelDirection scrollDirection);
 
 void scrollVH(int vertical, int horizontal);
 
-MMInfo getCursorInfo();
+MMInfo getCursorInfo(bool force);
 
 #endif /* MOUSE_H */
 

@@ -661,7 +661,8 @@ NAN_METHOD(getScreenSize)
 
 NAN_METHOD(getCursor)
 {
-	MMInfo mm = getCursorInfo();
+	bool force = To<bool>(info[0]).FromJust();
+	MMInfo mm = getCursorInfo(force);
 	if(mm.size > 0){
 		Local<Object> obj = Nan::New<Object>();
 		Nan::Set(obj, Nan::New("left").ToLocalChecked(), Nan::New<Number>(mm.left));

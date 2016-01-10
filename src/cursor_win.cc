@@ -39,23 +39,23 @@ MMInfo m;
 CURSORINFO cursorInfo;
 int height = 0, width = 0;
 HCURSOR hCursor;
+ICONINFO ii;
 
 gcroot<System::Drawing::Bitmap^> bmp;
 gcroot<MemoryStream^> ms = gcnew MemoryStream();
 gcroot<Icon^> icon;
 
-MMInfo getCursorInfo(){
+MMInfo getCursorInfo(bool force){
 	cursorInfo.cbSize = sizeof(cursorInfo);
 	GetCursorInfo(&cursorInfo);
 
-	if(hCursor == cursorInfo.hCursor){
+	if(!force && hCursor == cursorInfo.hCursor){
 		m.size = 0;
 		return m;
 	}
 	else
 		hCursor = cursorInfo.hCursor;
 
-	ICONINFO ii;
 	GetIconInfo(hCursor, &ii);
 	icon = Icon::FromHandle((IntPtr)hCursor);
 	auto colorbmp = RAIIHBITMAP(ii.hbmColor);
