@@ -281,7 +281,7 @@ NAN_METHOD(scrollMouse)
 NAN_METHOD(sendClick){
 	MMMouseButton button = LEFT_BUTTON;
 
-	Nan::Utf8String bstr(info[1]);
+	Nan::Utf8String bstr(info[0]);
 	const char * const b = *bstr;
 
 	CheckMouseButton(b, &button);
