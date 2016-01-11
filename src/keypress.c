@@ -34,8 +34,8 @@ void toggleKeyCode(MMKeyCode code, const bool down, MMKeyFlags flags)
 	                                                 (CGKeyCode)code, down);
 	assert(keyEvent != NULL);
 
-	// CGEventSetType(keyEvent, down ? kCGEventKeyDown : kCGEventKeyUp);
-	// CGEventSetFlags(keyEvent, flags);
+	CGEventSetType(keyEvent, down ? kCGEventKeyDown : kCGEventKeyUp);
+	CGEventSetFlags(keyEvent, flags);
 	CGEventPost(kCGSessionEventTap, keyEvent);
 	CFRelease(keyEvent);
 #elif defined(IS_WINDOWS)

@@ -621,7 +621,22 @@ NAN_METHOD(setKeyboardDelay)
 NAN_METHOD(sendKey){
 	int keyCode = To<int>(info[0]).FromJust();
 	bool down = To<bool>(info[1]).FromJust();
-	toggleKeyCode(keyCode, down, MOD_NONE);
+
+	MMKeyFlags flags = MOD_NONE;
+
+	if(To<int>(info[2]).FromJust())
+		flags = (MMKeyFlags)(flags | MOD_ALT);
+
+	if(To<int>(info[3]).FromJust())
+		flags = (MMKeyFlags)(flags | MOD_CONTROL);
+
+	if(To<int>(info[4]).FromJust())
+		flags = (MMKeyFlags)(flags | MOD_SHIFT);
+
+	if(To<int>(info[5]).FromJust())
+		flags = (MMKeyFlags)(flags | MOD_META);
+
+	toggleKeyCode(keyCode, down, flags);
 }
 
 /*

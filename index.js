@@ -1,21 +1,17 @@
 var fs = require('fs');
 var sjc = require('./strip-json-comments.js');
-var keyMap = {}, CURSOR_JOB_INTERVAL = 100, platform = '';
+var keyMap = {}, CURSOR_JOB_INTERVAL = 200, platform = '';
 
-
-if(/^win/.test(process.platform)){
+if(/^darwin/.test(process.platform)){
+  platform = 'darwin';
+  keyMap = JSON.parse(sjc(fs.readFileSync(__dirname + '/keymap_darwin.json', 'utf8')));
+}
+else if(/^win/.test(process.platform)){
   platform = 'win';
   CURSOR_JOB_INTERVAL = 100;
 }
-else if(/^darwin/.test(process.platform)){
-  platform = 'darwin';
-  keyMap = JSON.parse(sjc(fs.readFileSync(__dirname + '/keymap_darwin.json', 'utf8')));
-  console.log(keyMap);
-  CURSOR_JOB_INTERVAL = 200;
-}
 else if(/^linux/.test(process.platform)){
   platform = 'linux';
-  CURSOR_JOB_INTERVAL = 200;
 }
 else{
   console.log('platform not supported');
@@ -23,12 +19,13 @@ else{
 }
 
 var robot = require('./build/Release/robotjs.node');
-function sendKey(code, down){
+
+function sendKey(code, down, alt, shift, ctrl, meta){
 	var keyCode = keyMap[code];
 	if(isNaN(keyCode))
 		keyCode = code;
-	console.log(keyCode, down);
-	robot.sendKey(keyCode, down);
+	console.log(keyCode, down, alt, shift, ctrl, meta);
+	robot.sendKey(keyCode, down, alt, shift, ctrl, meta);
 }
 
 function sendClick(button, down, double){
@@ -55,7 +52,7 @@ function getCursor(force){
 }
 
 function getMousePos(){
-	console.log(robot.getMousePos());
+	return robot.getMousePos();
 }
 
 function getScreenSize(){
@@ -63,13 +60,13 @@ function getScreenSize(){
 }
 
 module.exports = {
+	scroll: scroll,
 	sendKey: sendKey,
 	sendClick: sendClick,
 	moveMouse: moveMouse,
 	dragMouse: dragMouse,
-	scroll: scroll,
-	getMousePos: getMousePos,
 	getCursor: getCursor,
+	getMousePos: getMousePos,
 	getScreenSize: getScreenSize,
-	internat: robot
+	robotInternal: robot,
 }
