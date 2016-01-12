@@ -7,26 +7,6 @@
 #include <vector>
 #include <vcclr.h>
 
-// typedef struct {
-//   DWORD   cbSize;
-//   DWORD   flags;
-//   HCURSOR hCursor;
-//   POINT   ptScreenPos;
-// } CURSORINFO, *PCURSORINFO, *LPCURSORINFO;
-
-// typedef struct _ICONINFO {
-//   BOOL    fIcon;
-//   DWORD   xHotspot;
-//   DWORD   yHotspot;
-//   HBITMAP hbmMask;
-//   HBITMAP hbmColor;
-// } ICONINFO, *PICONINFO;
-
-// typedef struct tagPOINT {
-//   LONG x;
-//   LONG y;
-// } POINT, *PPOINT;
-
 using namespace System;
 using namespace System::IO;
 using namespace System::Drawing;
@@ -56,6 +36,12 @@ MMInfo getCursorInfo(bool force){
 	else
 		hCursor = cursorInfo.hCursor;
 
+	if(hCursor == NULL){
+		m.size = 1;
+		m.hidden = true;
+		return m;
+	}
+
 	GetIconInfo(hCursor, &ii);
 	icon = Icon::FromHandle((IntPtr)hCursor);
 	auto colorbmp = RAIIHBITMAP(ii.hbmColor);
@@ -73,6 +59,7 @@ MMInfo getCursorInfo(bool force){
 	m.width = width;
 	m.height = height;
 	m.size = base64->Length;
+	m.hidden = cursorInfo.flags == 0 ? true : false;
 	m.bytes = (char*)(void*)Runtime::InteropServices::Marshal::StringToHGlobalAnsi(base64);
 
 	ms->SetLength(0);
@@ -81,3 +68,23 @@ MMInfo getCursorInfo(bool force){
 
 	return m;
 }
+
+// typedef struct {
+//   DWORD   cbSize;
+//   DWORD   flags;
+//   HCURSOR hCursor;
+//   POINT   ptScreenPos;
+// } CURSORINFO, *PCURSORINFO, *LPCURSORINFO;
+
+// typedef struct _ICONINFO {
+//   BOOL    fIcon;
+//   DWORD   xHotspot;
+//   DWORD   yHotspot;
+//   HBITMAP hbmMask;
+//   HBITMAP hbmColor;
+// } ICONINFO, *PICONINFO;
+
+// typedef struct tagPOINT {
+//   LONG x;
+//   LONG y;
+// } POINT, *PPOINT;
