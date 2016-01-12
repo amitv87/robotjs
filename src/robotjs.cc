@@ -696,6 +696,7 @@ NAN_METHOD(getCursor)
 		Nan::Set(obj, Nan::New("width").ToLocalChecked(), Nan::New<Number>(mm.width));
 		Nan::Set(obj, Nan::New("height").ToLocalChecked(), Nan::New<Number>(mm.height));
 		Nan::Set(obj, Nan::New("size").ToLocalChecked(), Nan::New<Number>(mm.size));
+		Nan::Set(obj, Nan::New("hidden").ToLocalChecked(), Nan::New<v8::Boolean>(mm.hidden));
 		Nan::Set(obj, Nan::New("bytes").ToLocalChecked(), Nan::New<String>(mm.bytes, mm.size).ToLocalChecked());
 		info.GetReturnValue().Set(obj);
 	}

@@ -5,7 +5,11 @@
 #include "os.h"
 #include "inline_keywords.h" /* For H_INLINE */
 #include <stddef.h>
-
+#if defined(_MSC_VER)
+	#include "ms_stdbool.h"
+#else
+	#include <stdbool.h>
+#endif
 /* Some generic, cross-platform types. */
 
 struct _MMPoint {
@@ -60,7 +64,7 @@ struct _MMInfo {
 	int width;//width of the mouse icon
 	int size;
 	char* bytes;
-	// bool Hidden;
+	bool hidden;
 };
 typedef struct _MMInfo MMInfo;
 
