@@ -19,10 +19,10 @@ MMInfo getCursorInfo(bool force){
 	CFDataRef curData = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
 	if(!force && (prevData != nil && CFEqual(curData, prevData))){
 		m.size = 0;
-		[curData release];
-		[cgImage release];
-		[nsImage release];
-		[cursor release];
+		// [curData release];
+		// [cgImage release];
+		// [nsImage release];
+		// [cursor release];
 		return m;
 	}
 
@@ -41,11 +41,11 @@ MMInfo getCursorInfo(bool force){
 	m.size = [base64png length];
 	m.bytes = (char *)[base64png UTF8String];
 
-	[imageRep release];
-	[cgImage release];
-	[nsImage release];
-	[cursor release];
-	[pngData release];
-	[base64png release];
+	// [imageRep release];
+	// [cgImage release];
+	// [nsImage release];
+	// [cursor release];
+	// [pngData release];
+	// [base64png release];
 	return m;
 }
