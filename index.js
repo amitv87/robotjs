@@ -27,7 +27,6 @@ function sendKey(code, down, alt, shift, ctrl, meta){
   var keyCode = keyMap[code];
   if(isNaN(keyCode))
     keyCode = code;
-  console.log(keyCode, down, alt, shift, ctrl, meta);
   robot.sendKey(keyCode, down, alt, shift, ctrl, meta);
 }
 
@@ -47,7 +46,10 @@ function dragMouse(x, y, button){
 }
 
 function scroll(vertical, horizontal){
-  robot.scroll(vertical, horizontal);
+  if(isDarwin)
+    robot.scroll(vertical / 30, horizontal / 30);
+  else
+    robot.scroll(vertical * 30, horizontal * 30);
 }
 
 function getCursor(force){
