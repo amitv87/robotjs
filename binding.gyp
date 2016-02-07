@@ -58,12 +58,10 @@
             #'RuntimeTypeInfo': 1,
             'RuntimeLibrary':'MultiThreadedDLL',
             'CompileAsManaged':'true',
-              'AdditionalOptions': [
-                '/clr',
-                '/TP',
-                '/TC'
-                '/c4005'
-              ]
+            'AdditionalOptions': [
+              '/clr',
+              '/TP',
+            ]
           }
         },
         'sources': [
